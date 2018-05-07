@@ -14,7 +14,7 @@ Special thanks to [Oskar Neumann](https://github.com/oskarn97) for the code hint
 - Oskar Neumann
 - Matthias Kleine
 
-## Lisence
+## LICENSE
 
 MIT License
 
