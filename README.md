@@ -9,6 +9,10 @@ You can find the documentation of the protocol [here](http://www.f6fbb.org/domo/
 
 Special thanks to [Oskar Neumann](https://github.com/oskarn97) for the code hints :)
 
+## Usage
+
+You can use a 433MHz transmitter for Arduino (like the FS1000A) to send your temperature and humidity wireless. If you are using a home automation system like fhem, just attach a nanoCUL (CC1101) with flashed [a-culfw](https://github.com/heliflieger/a-culfw) and everything will be created automatically.
+
 ## Contributors
 
 - Oskar Neumann
