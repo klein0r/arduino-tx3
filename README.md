@@ -7,4 +7,9 @@ You can find the documentation of the protocol [here](http://www.f6fbb.org/domo/
 - temperature
 - humidity
 
-Special thanks to Oskar Neumann for the code hints :)
+Special thanks to [Oskar Neumann](https://github.com/oskarn97) for the code hints :)
+
+## Contributors
+
+- Oskar Neumann
+- Matthias Kleine
