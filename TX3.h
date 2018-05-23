@@ -20,6 +20,6 @@ private:
 
   void O();
   void I();
-  void sendNibles(int type, int tens, int ones, int tenths);
+  void sendNibbles(int type, int tens, int ones, int tenths);
   void sendNibble(int i);
 };
