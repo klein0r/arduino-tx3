@@ -4,7 +4,7 @@ TX3::TX3(int pin, int id)
 {
   dataPin = pin;
   sensorId = id;
-
+  nRepeatTransmit = 2;
   pinMode(dataPin, OUTPUT);
 }
 
@@ -65,7 +65,7 @@ void TX3::sendNibbles(int type, int tens, int ones, int tenths)
   // Checksum nibble of all nibbles
   checksum = (nibble1 + nibble2 + nibble3 + nibble4 + nibble5 + nibble6 + nibble7 + nibble8 + nibble9 + nibble10) & 0xF;
 
-  for (int r = 0; r < 2; r++) {
+  for (int r = 0; r < nRepeatTransmit; r++) {
     sendNibble(nibble1);
     sendNibble(nibble2);
     sendNibble(nibble3);
@@ -105,4 +105,9 @@ void TX3::I()
   delayMicroseconds(TX3_SHORT_PULSE);
   digitalWrite(dataPin, LOW);
   delayMicroseconds(TX3_DELAY);
+}
+
+void TX3::setRepeatTransmit(int n)
+{
+  nRepeatTransmit = n;
 }
