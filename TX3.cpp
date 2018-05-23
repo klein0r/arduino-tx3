@@ -66,6 +66,7 @@ void TX3::sendNibbles(int type, int tens, int ones, int tenths)
   checksum = (nibble1 + nibble2 + nibble3 + nibble4 + nibble5 + nibble6 + nibble7 + nibble8 + nibble9 + nibble10) & 0xF;
 
   for (int r = 0; r < nRepeatTransmit; r++) {
+    if(r > 0) delay(20);
     sendNibble(nibble1);
     sendNibble(nibble2);
     sendNibble(nibble3);
@@ -77,7 +78,6 @@ void TX3::sendNibbles(int type, int tens, int ones, int tenths)
     sendNibble(nibble9);
     sendNibble(nibble10);
     sendNibble(checksum);
-    delay(20);
   }
 }
 
