@@ -14,12 +14,13 @@ public:
 
   void sendTemperature(float t);
   void sendHumidity(float h);
+  void setRepeatTransmit(int n);
 
 private:
-  int dataPin, sensorId;
+  int dataPin, sensorId, nRepeatTransmit;
 
   void O();
   void I();
-  void sendNibles(int type, int tens, int ones, int tenths);
+  void sendNibbles(int type, int tens, int ones, int tenths);
   void sendNibble(int i);
 };

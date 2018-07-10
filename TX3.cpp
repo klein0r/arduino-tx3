@@ -4,13 +4,13 @@ TX3::TX3(int pin, int id)
 {
   dataPin = pin;
   sensorId = id;
-
+  nRepeatTransmit = 2;
   pinMode(dataPin, OUTPUT);
 }
 
 void TX3::sendTemperature(float t)
 {
-  sendNibles(
+  sendNibbles(
     TX3_COM_TEMP,
     (int(t) / 10) + 5,
     (int(t) % 10),
@@ -20,7 +20,7 @@ void TX3::sendTemperature(float t)
 
 void TX3::sendHumidity(float h)
 {
-  sendNibles(
+  sendNibbles(
     TX3_COM_HUM,
     (int(h) / 10),
     (int(h) % 10),
@@ -28,23 +28,23 @@ void TX3::sendHumidity(float h)
   );
 }
 
-void TX3::sendNibles(int type, int tens, int ones, int tenths)
+void TX3::sendNibbles(int type, int tens, int ones, int tenths)
 {
   int idr, checksum, parity;
-  int nible1, nible2, nible3, nible4, nible5, nibble6, nibble7, nibble8, nibble9, nibble10;
+  int nibble1, nibble2, nibble3, nibble4, nibble5, nibble6, nibble7, nibble8, nibble9, nibble10;
 
-  // left  nible of Model
-  nible1 = TX3_MODELID / 0x10;
+  // left  nibble of Model
+  nibble1 = TX3_MODELID / 0x10;
 
-  // right  nible of Model
-  nible2 = TX3_MODELID & 0xF;
+  // right  nibble of Model
+  nibble2 = TX3_MODELID & 0xF;
 
-  nible3 = type;
+  nibble3 = type;
 
-  // Nible 4 is the left part of the Id
+  // Nibble 4 is the left part of the Id
   // 1101 111?
   // 0110 1111
-  nible4 = sensorId / 0x08;
+  nibble4 = sensorId / 0x08;
 
   nibble6 = tens;
   nibble7 = ones;
@@ -57,27 +57,27 @@ void TX3::sendNibles(int type, int tens, int ones, int tenths)
   idr = sensorId & 0x7;
 
   // Parity bit makes even parity for sum
-  parity = (nible4 + idr + nibble6 + nibble7 + nibble8 + nibble9 + nibble10) & 0x1;
+  parity = (nibble4 + idr + nibble6 + nibble7 + nibble8 + nibble9 + nibble10) & 0x1;
 
-  // nible 5 is last 3 digits of Sensor and parity bit
-  nible5 = ((idr * 0x2) + parity) & 0xF;
+  // nibble 5 is last 3 digits of Sensor and parity bit
+  nibble5 = ((idr * 0x2) + parity) & 0xF;
 
-  // Checksum nible of all nibles
-  checksum = (nible1 + nible2 + nible3 + nible4 + nible5 + nibble6 + nibble7 + nibble8 + nibble9 + nibble10) & 0xF;
+  // Checksum nibble of all nibbles
+  checksum = (nibble1 + nibble2 + nibble3 + nibble4 + nibble5 + nibble6 + nibble7 + nibble8 + nibble9 + nibble10) & 0xF;
 
-  for (int r = 0; r < 2; r++) {
-    sendNibble(nible1);
-    sendNibble(nible2);
-    sendNibble(nible3);
-    sendNibble(nible4);
-    sendNibble(nible5);
+  for (int r = 0; r < nRepeatTransmit; r++) {
+    if(r > 0) delay(20);
+    sendNibble(nibble1);
+    sendNibble(nibble2);
+    sendNibble(nibble3);
+    sendNibble(nibble4);
+    sendNibble(nibble5);
     sendNibble(nibble6);
     sendNibble(nibble7);
     sendNibble(nibble8);
     sendNibble(nibble9);
     sendNibble(nibble10);
     sendNibble(checksum);
-    delay(20);
   }
 }
 
@@ -105,4 +105,9 @@ void TX3::I()
   delayMicroseconds(TX3_SHORT_PULSE);
   digitalWrite(dataPin, LOW);
   delayMicroseconds(TX3_DELAY);
+}
+
+void TX3::setRepeatTransmit(int n)
+{
+  nRepeatTransmit = n;
 }
